@@ -6,7 +6,6 @@ import (
 	"log"
 	"os"
 	"regexp"
-	"strconv"
 	"strings"
 	"text/template"
 	"time"
@@ -119,59 +118,51 @@ func writeEntries(entries []timetableEntry) {
 	w.Flush()
 }
 
-func main() {
+func parseDate(text string) string {
+	// Get date of event with regex
+	pattern := `Day (\d+) – (\w+) (\d{1,2}) (\w+) (\d{4})`
+	re := regexp.MustCompile(pattern)
+	matches := re.FindAllStringSubmatch(text, -1)
+
+	var formattedDate string
+	for _, match := range matches {
+		dayOfMonth := match[3]
+		month := match[4]
+		year := match[5]
+		formattedDate = formatDate(dayOfMonth, month, year)
+	}
+	return formattedDate
+}
+
+func scraper(c *colly.Collector) {
 	var allEntries []timetableEntry
-	c := colly.NewCollector()
-
-	fmt.Print("Enter conference programme URL: ")
-	var website_url string
-	fmt.Scanln(&website_url)
-
-	url := website_url
 
 	c.OnHTML("details.vf-details", func(section *colly.HTMLElement) {
-
 		timetableentry := timetableEntry{
 			StampTime: stampTime,
 		}
-
 		section.ForEach("summary.vf-details--summary", func(i int, row *colly.HTMLElement) {
-			// Get date of event with regex
 			text := row.Text
-			pattern := `Day (\d+) – (\w+) (\d{1,2}) (\w+) (\d{4})`
-			re := regexp.MustCompile(pattern)
-			matches := re.FindAllStringSubmatch(text, -1)
-
-			for _, match := range matches {
-				dayOfMonth := match[3]
-				month := match[4]
-				year := match[5]
-				formattedDate := formatDate(dayOfMonth, month, year)
-
-				timetableentry.Date = formattedDate
-			}
+			formattedDate := parseDate(text)
+			timetableentry.Date = formattedDate
 		})
 
 		section.ForEach("tr", func(_ int, el *colly.HTMLElement) {
+			// 🤡
 			descriptions := el.ChildText("td:nth-child(2)")
 			statement := parseTableText(descriptions)
 
-			if _, err := strconv.Atoi(statement); err == nil {
-				timetableentry.Date = statement
+			description := el.ChildText("strong")
+			if len(description) == 0 {
+				description := el.ChildText("em")
+				timetableentry.Description = description
 
+				italics_title := strings.Replace(statement, description, "", -1)
+				timetableentry.Title = italics_title
 			} else {
-				description := el.ChildText("strong")
-				if len(description) == 0 {
-					description := el.ChildText("em")
-					timetableentry.Description = description
-
-					italics_title := strings.Replace(statement, description, "", -1)
-					timetableentry.Title = italics_title
-				} else {
-					timetableentry.Description = description
-					title := strings.Replace(statement, description, "", -1)
-					timetableentry.Title = title
-				}
+				timetableentry.Description = description
+				title := strings.Replace(statement, description, "", -1)
+				timetableentry.Title = title
 			}
 
 			// Get time of event with regex
@@ -197,6 +188,19 @@ func main() {
 		})
 		writeEntries(allEntries)
 	})
+}
+
+func main() {
+
+	fmt.Print("Enter Conference Programme URL: ")
+	var website_url string
+	fmt.Scanln(&website_url)
+
+	url := website_url
+
+	c := colly.NewCollector()
+	scraper(c)
+
 	c.OnError(func(_ *colly.Response, err error) {
 		log.Println("Request URL:", url, "\nError:", err)
 	})
