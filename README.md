@@ -1,6 +1,6 @@
 # Description
 
-WORK IN PROGRESS
+✨ WORK IN PROGRESS ✨
 
 This Go script generates a single .ics file containing the conference schedule for an EMBL Conferences. This .ics file can then be easily imported into your calendar app.
 
