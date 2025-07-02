@@ -86,18 +86,7 @@ DESCRIPTION:Welcome and Introduction
 END:VEVENT
 ```
 
-## 🛠️ Dependencies
 
-- **github.com/gocolly/colly**: Web scraping framework
-- **Standard Go libraries**: regexp, time, text/template, etc.
-
-## 🤝 Contributing
-
-Contributions are welcome! Please feel free to submit a Pull Request.
-
-## 📄 License
-
-This project is open source and available under the [MIT License](LICENSE).
 
 ## ⚠️ Disclaimer
 
