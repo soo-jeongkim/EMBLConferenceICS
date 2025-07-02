@@ -2,6 +2,10 @@
 
 A Go-based web scraper that automatically converts EMBL conference program schedules into iCalendar (.ics) files for easy import into your calendar application.
 
+## ⚠️ Disclaimer
+
+This tool is designed specifically for EMBL conference program webpages. It may not work with other conference websites due to different HTML structures. This is not an official EMBL tool.
+
 ## 🎯 Features
 
 - **Web Scraping**: Automatically extracts conference schedules from EMBL conference program pages
@@ -88,9 +92,7 @@ END:VEVENT
 
 
 
-## ⚠️ Disclaimer
 
-This tool is designed specifically for EMBL conference program pages. It may not work with other conference websites due to different HTML structures. Use responsibly and respect the websites' terms of service and robots.txt files.
 
 ## 🐛 Troubleshooting
 
