@@ -2,24 +2,23 @@
 
 A Go-based web scraper that automatically converts EMBL conference program schedules into iCalendar (.ics) files for easy import into your calendar application.
 
-## ⚠️ Disclaimer
-
-This tool is designed specifically for EMBL conference program webpages. It may not work with other conference websites due to different HTML structures. This is not an official EMBL tool.
-
-## 🎯 Features
-
+**Features:**
 - **Web Scraping**: Automatically extracts conference schedules from EMBL conference program pages
 - **iCalendar Generation**: Creates standard .ics files compatible with all major calendar applications
 - **Event Details**: Captures event titles, descriptions, dates, and times
 - **Cross-Platform**: Works on Windows, macOS, and Linux
 - **Easy to Use**: Simple command-line interface with minimal setup
 
-## 📋 Requirements
+## Disclaimer
+
+This tool is designed specifically for EMBL conference program webpages. It may not work with other conference websites due to different HTML structures. This is not an official EMBL tool.
+
+## Requirements
 
 - **Go 1.21.3** or higher
 - Internet connection to access EMBL conference pages
 
-## 🚀 Installation
+## Installation
 
 ### Prerequisites
 1. Install Go from [golang.org](https://golang.org/dl/)
@@ -37,7 +36,7 @@ This tool is designed specifically for EMBL conference program webpages. It may 
    go mod tidy
    ```
 
-## 💻 Usage
+## Usage
 
 1. **Run the application**:
    ```bash
@@ -57,7 +56,7 @@ This tool is designed specifically for EMBL conference program webpages. It may 
    - **Outlook**: File → Open & Export → Import/Export → Import an iCalendar file
    - **Other apps**: Most calendar applications support .ics file imports
 
-## 📁 Project Structure
+## Project Structure
 
 ```
 EMBLConferenceICS/
@@ -68,7 +67,7 @@ EMBLConferenceICS/
 └── embl-conference-programme.ics # Generated calendar file (after running)
 ```
 
-## 🔧 How It Works
+## How It Works
 
 The application uses the [Colly](https://github.com/gocolly/colly) web scraping framework to:
 
@@ -77,7 +76,7 @@ The application uses the [Colly](https://github.com/gocolly/colly) web scraping 
 3. **Format Data**: Converts dates and times to iCalendar format
 4. **Generate .ics File**: Creates a properly formatted iCalendar file with VEVENT entries
 
-## 📝 Example Output
+## Example Output
 
 The generated .ics file contains events in this format:
 ```
@@ -94,7 +93,7 @@ END:VEVENT
 
 
 
-## 🐛 Troubleshooting
+## Troubleshooting
 
 **Common Issues:**
 
